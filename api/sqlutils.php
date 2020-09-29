@@ -58,7 +58,7 @@ function getTotalAwards(){
 	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
 	$row=mysqli_fetch_row($res);
-	return $row[0]*131;
+	return $row[0];
 }
 
 //获得抽奖详情by id
@@ -336,10 +336,10 @@ function deleteFormId($formid){
 	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 }
 
-function trace($v){
+/*function trace($v){
     print_r($v);
     echo "\n";
-}
+}*/
 
 function httpGet($url) {
     $curl = curl_init();
@@ -442,7 +442,7 @@ function sendOpenAwardNotice($luckydrawname,$luckydrawid,$openid){
 	);
 
 	$url="pages/index/index?luckydrawid=".$luckydrawid;
-	
+//    bfqthzZ4ZAwVVyg0M7J3zpaIL97fLy4BHvIJ4wUBNeE
 	sendNotice($openid,"yF-9ur2H9wT9Z-w79z5F0KRhWqJN_iwQIqBYn0i0Q6U",$data,$url);
 }
 

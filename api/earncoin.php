@@ -23,8 +23,8 @@ $now=time();
 
 $distancetime=$now-$row['lastearncoin'];
 if($distancetime>=3600){
-    $coin=$row['coin']+1;
-    $sql = "update `".getTablePrefix()."_members` set coin='$coin',lastearncoin='$now' where openid='$openid' LIMIT 1";
+//    $coin=$row['coin']+1;
+    $sql = "update `".getTablePrefix()."_members` set lastearncoin='$now' where openid='$openid' LIMIT 1";
     $res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
     if($res==true)addCoinHistory(1,1,"钱包产出领取");
