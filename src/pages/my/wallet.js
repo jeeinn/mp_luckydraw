@@ -91,6 +91,7 @@ Page({
 					that.setData({
 						result: res.data.result
 					});
+					app.globalData.userInfo.coin = res.data.result.totalcoin;
 					if(!res.data.canearncoin)that.startTimer();
 				}else{
 					wx.showModal({
