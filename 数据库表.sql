@@ -24,11 +24,11 @@ CREATE TABLE `xcx_zj_coinhistory` (
   `ownerid` varchar(32) CHARACTER SET utf8 NOT NULL,
   `value` int(10) NOT NULL,
   `createdate` int(10) unsigned NOT NULL,
-  `msg` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `msg` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `type` tinyint(1) unsigned NOT NULL COMMENT '1时领，2消费，3转账，4奖励',
   PRIMARY KEY (`id`),
   KEY `ownerid` (`ownerid`,`createdate`,`type`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17096 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -46,7 +46,7 @@ CREATE TABLE `xcx_zj_comments` (
   `createdate` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `luckydrawid` (`luckydrawid`,`ownerid`,`createdate`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -63,7 +63,7 @@ CREATE TABLE `xcx_zj_formids` (
   PRIMARY KEY (`id`),
   KEY `ownerid` (`ownerid`,`createdate`),
   KEY `used` (`used`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28963 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -76,7 +76,7 @@ CREATE TABLE `xcx_zj_joins` (
   `luckydrawid` int(10) unsigned NOT NULL,
   `ownerid` varchar(32) NOT NULL,
   `ownernickname` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `msg` varchar(10) NOT NULL,
+  `msg` varchar(10) NOT NULL DEFAULT '',
   `createdate` int(10) unsigned NOT NULL,
   `getaward` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否中奖',
   `awarddate` int(10) unsigned NOT NULL COMMENT '中奖日期',
@@ -90,7 +90,7 @@ CREATE TABLE `xcx_zj_joins` (
   KEY `ownernickname` (`ownernickname`),
   KEY `getaward` (`getaward`),
   KEY `awarddate` (`awarddate`,`awardnoticed`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10245 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -101,33 +101,33 @@ CREATE TABLE `xcx_zj_joins` (
 CREATE TABLE `xcx_zj_luckydraws` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `ownerid` varchar(32) NOT NULL,
-  `awardimage` varchar(50) NOT NULL,
-  `awardvideo` varchar(100) NOT NULL,
+  `awardimage` varchar(50) NOT NULL DEFAULT '',
+  `awardvideo` varchar(100) NOT NULL DEFAULT '',
   `awardname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `awardnum` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `awardpics` varchar(100) NOT NULL,
-  `startdate` int(10) unsigned NOT NULL COMMENT '开始日期，满足放可参与，为空时则不限',
+  `awardpics` varchar(100) NOT NULL DEFAULT '',
+  `startdate` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '开始日期，满足方可参与，为空时则不限',
   `opentype` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0按时间，1按人数，2手动',
-  `opendate` int(10) unsigned NOT NULL COMMENT '开奖日期',
+  `opendate` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '开奖日期',
   `openneedusers` int(5) unsigned NOT NULL DEFAULT '1',
   `advdistancetype` tinyint(1) unsigned NOT NULL,
   `advgendertype` tinyint(1) unsigned NOT NULL,
-  `advbarcode` varchar(50) NOT NULL COMMENT '解锁条码',
-  `advcoinbottom` int(5) unsigned NOT NULL,
-  `advpassword` varchar(12) NOT NULL,
+  `advbarcode` varchar(50) NOT NULL DEFAULT '' COMMENT '解锁条码',
+  `advcoinbottom` int(5) unsigned NOT NULL DEFAULT '0',
+  `advpassword` varchar(12) NOT NULL DEFAULT '',
   `advpasswordtips` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `advgpscity` varchar(10) NOT NULL,
-  `advgps` varchar(100) NOT NULL,
-  `advgpsaddr` varchar(100) NOT NULL,
-  `advneedinfokey` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `advgps` varchar(100) NOT NULL DEFAULT '',
+  `advgpsaddr` varchar(100) NOT NULL DEFAULT '',
+  `advneedinfokey` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `advshare` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否分享加几率',
   `advispublic` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否公开，进入到全部抽奖或是地图内',
   `createdate` int(10) unsigned NOT NULL COMMENT '创建日期',
-  `sponser` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '赞助商',
-  `sponserslogan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '赞助商宣传语',
-  `sponserurl` varchar(100) NOT NULL COMMENT 'h5地址，没有xcxid时可用',
-  `sponserxcxid` varchar(50) NOT NULL COMMENT '赞助商小程序id',
-  `sponsercxcpath` varchar(50) NOT NULL COMMENT '小程序path',
+  `sponser` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '赞助商',
+  `sponserslogan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '赞助商宣传语',
+  `sponserurl` varchar(100) NOT NULL DEFAULT '' COMMENT 'h5地址，没有xcxid时可用',
+  `sponserxcxid` varchar(50) NOT NULL DEFAULT '' COMMENT '赞助商小程序id',
+  `sponsercxcpath` varchar(50) NOT NULL DEFAULT '' COMMENT '小程序path',
   `isopened` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '已开奖',
   `isrecommend` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否推荐',
   `isdelete` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否已删除',
@@ -147,7 +147,7 @@ CREATE TABLE `xcx_zj_luckydraws` (
   KEY `startdate` (`startdate`),
   KEY `viewcount` (`viewcount`),
   KEY `sponserclickcount` (`sponserclickcount`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=538 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -165,18 +165,18 @@ CREATE TABLE `xcx_zj_members` (
   `city` varchar(20) NOT NULL,
   `province` varchar(20) NOT NULL,
   `country` varchar(20) NOT NULL,
-  `age` tinyint(2) unsigned NOT NULL,
+  `age` tinyint(2) unsigned NOT NULL DEFAULT 0,
   `type` tinyint(1) unsigned NOT NULL DEFAULT '10' COMMENT '普通10，101高级用户，管理员251',
   `joindate` int(10) unsigned NOT NULL,
   `lastlogin` int(10) unsigned NOT NULL COMMENT '最后登录',
   `baned` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '封禁',
   `coin` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '积分/代币',
-  `lastearncoin` int(10) unsigned NOT NULL COMMENT '上次收获RP币的时间',
-  `optiondetail` varchar(10000) NOT NULL COMMENT 'json串，自定义资料',
+  `lastearncoin` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '上次收获RP币的时间',
+  `optiondetail` varchar(10000) NOT NULL DEFAULT '' COMMENT 'json串，自定义资料',
   PRIMARY KEY (`id`),
   UNIQUE KEY `openid` (`openid`),
   KEY `gender` (`gender`,`city`,`province`,`country`,`type`,`joindate`),
   KEY `baned` (`baned`),
   KEY `area` (`area`),
   KEY `coin` (`coin`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6569 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

@@ -60,6 +60,7 @@ Page({
 		var that=this;
 		var showtotalawards=that.data.result.totalawards-Math.floor(Math.random()*50+50);
 		function updateTotalAwards(){
+			if (showtotalawards<0) showtotalawards = 0;
 			if (showtotalawards<that.data.result.totalawards){
 				showtotalawards+=Math.floor(Math.random()*5+1);
 			}
