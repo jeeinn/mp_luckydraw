@@ -36,10 +36,10 @@ if($type==0){//倒序
 }else if($type==2){//获奖的
     $sql = "select * from ".getTablePrefix()."_joins where luckydrawid = '$id' ".$searchSql." and getaward=1 order by createdate asc LIMIT ".$limit*$page.",$limit";
 }
-$res=mysql_query($sql,$db) or die(mysql_error());
+$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
 $list = array();
-while ($row = mysql_fetch_assoc($res)) {
+while ($row = mysqli_fetch_assoc($res)) {
     $row['createdate']=date('Y-m-d H:i:s', $row['createdate']);
     $row['userInfo']=getUserSimpleInfo($row['ownerid']);
     

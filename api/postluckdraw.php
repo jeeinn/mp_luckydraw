@@ -68,8 +68,8 @@ $memc->connect('127.0.0.1',6379);
 $addLock = $memc->setnx($lockKey,5);// 写入锁，说明这个$id目前有进程在参与抽奖。
 if (!$addLock) {
 	$sql="select `id`,createdate from ".getTablePrefix()."_luckydraws where ownerid='$openid' order by createdate DESC LIMIT 1";
-	$res=mysql_query($sql,$db) or die(mysql_error());
-	$row=mysql_fetch_assoc($res);
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
+	$row=mysqli_fetch_assoc($res);
 	exitJson(0,"抽奖发布成功，请勿重复操作",array("id"=>$row['id']));// 或当前参与人数太多，请重试
 }
 $memc->expire($lockKey,10); // 设置10秒自动过期该锁，如果某人崩溃，则10秒后其他人也可以自动参与
@@ -91,7 +91,7 @@ $memc->expire($lockKey,10); // 设置10秒自动过期该锁，如果某人崩�
 if($jsondata->id){
 	$id=$jsondata->id;
 	$sql = "update `".getTablePrefix()."_luckydraws` set ownerid='$openid',createdate='$now',awardimage='$awardimage',awardname='$awardname',awardnum='$awardnum',awardpics='$awardpics',opentype='$opentype',opendate='$opendate',openneedusers='$openneedusers',advdistancetype='$advdistancetype',advgendertype='$advgendertype',advcoinbottom='$advcoinbottom',advbarcode='$advbarcode',advpassword='$advpassword',advpasswordtips='$advpasswordtips',advgpscity='$advgpscity',advgps='$advgps',advgpsaddr='$advgpsaddr',advneedinfokey='$advneedinfokey',advshare='$advshare',advispublic='$advispublic' where id='$id' LIMIT 1";
-	$res=mysql_query($sql, $db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 	
 	// $memc->del($lockKey);// 删除锁
 	exitJson(0,"抽奖已更新",array("id"=>$id));
@@ -101,12 +101,13 @@ if($jsondata->id){
 		$memc->del($lockKey); // 删除锁
 		exitJson(1,"RP币余额不足，发起抽奖需消费5RP币");
 	}
-	$query=mysql_query("show table status where name ='".getTablePrefix()."_luckydraws'",$db);
-	$row = mysql_fetch_assoc($query);
+	$sql = "show table status where name ='".getTablePrefix()."_luckydraws'";
+	$query=mysqli_query($db,$sql);
+	$row = mysqli_fetch_assoc($query);
 	$insertid = $row['Auto_increment'];
 
 	$sql = "insert into `".getTablePrefix()."_luckydraws` (ownerid,createdate,awardimage,awardname,awardnum,awardpics,opentype,opendate,openneedusers,advdistancetype,advgendertype,advcoinbottom,advbarcode,advpassword,advpasswordtips,advgpscity,advgps,advgpsaddr,advneedinfokey,advshare,advispublic) values('$openid','$now','$awardimage','$awardname','$awardnum','$awardpics','$opentype','$opendate','$openneedusers','$advdistancetype','$advgendertype','$advcoinbottom','$advbarcode','$advpassword','$advpasswordtips','$advgpscity','$advgps','$advgpsaddr','$advneedinfokey','$advshare','$advispublic')";
-	$res=mysql_query($sql, $db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 	
 	// $memc->del($lockKey);// 删除锁
 	exitJson(0,"抽奖发布成功",array("id"=>$insertid));

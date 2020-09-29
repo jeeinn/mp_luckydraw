@@ -13,10 +13,10 @@ $limit=10;
 $db = getDb();
 
 $sql = "select * from ".getTablePrefix()."_joins where getaward=1 and expressno!='' order by awarddate desc LIMIT ".$limit*$page.",$limit";
-$res=mysql_query($sql,$db) or die(mysql_error());
+$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
 $list = array();
-while ($row = mysql_fetch_assoc($res)) {
+while ($row = mysqli_fetch_assoc($res)) {
     $row['createdate']=date('Y-m-d H:i:s', $row['createdate']);
 
     $row['luckydrawInfo']=getLuckyDrawById($row['luckydrawid']);

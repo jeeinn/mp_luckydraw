@@ -25,7 +25,7 @@ $now=time();
 $db=getDb();
 
 $sql="insert into `".getTablePrefix()."_comments` (luckydrawid,ownerid,ownernickname,ownerheadimg,content,createdate) values('$luckydrawid','$openid','$ownernickname','$ownerheadimg','$content','$now')";
-$res=mysql_query($sql,$db) or die(mysql_error());
+$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
 exitJson(0,"留言已发布");
 

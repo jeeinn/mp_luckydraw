@@ -20,10 +20,10 @@ $db=getDb();
 
 $sql="select * from ".getTablePrefix()."_luckydraws where opentype=0 and isopened=0 and opendate<=$now and opendate>".($now-86400);
 
-$res=mysql_query($sql,$db) or die(mysql_error());
+$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
 outputLog(date('Y-m-d H:i:s',$now)."====检查自动开奖");
-while ($row = mysql_fetch_assoc($res)) {
+while ($row = mysqli_fetch_assoc($res)) {
     // trace($row["id"]);
     if(openAward($row["id"])){
         outputLog(date('Y-m-d H:i:s',$now)." id:".$row['id']." name:".$row['awardname']." opendate:".date('Y-m-d H:i:s',$row['opendate'])." 已自动开奖");

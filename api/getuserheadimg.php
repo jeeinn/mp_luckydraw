@@ -11,9 +11,9 @@ $id=getGet("id");
 function getUserSimpleInfo($id){
 	$db = getDb();
 	$sql = "select `headimg` from ".getTablePrefix()."_members where id = '$id' LIMIT 1";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$row = mysql_fetch_assoc($res);
+	$row = mysqli_fetch_assoc($res);
 	
 	return $row;
 }

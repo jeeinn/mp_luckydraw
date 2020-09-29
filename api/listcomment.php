@@ -18,10 +18,10 @@ if(getGet('limit')!=""){
 $db=getDb();
 
 $sql = "select * from ".getTablePrefix()."_comments where luckydrawid = '$luckydrawid' order by createdate desc LIMIT ".$limit*$page.",$limit";
-$res=mysql_query($sql,$db) or die(mysql_error());
+$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
 $list = array();
-while ($row = mysql_fetch_assoc($res)) {
+while ($row = mysqli_fetch_assoc($res)) {
 	$row['createdate']=date("Y-m-d H:i:s",$row['createdate']);
     $list[]=$row;
 }

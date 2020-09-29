@@ -18,7 +18,7 @@ if(!$openid){
 $db = getDb();
 
 $sql = "update `".getTablePrefix()."_members` set optiondetail='$postdata' where openid='$openid' LIMIT 1";
-$res=mysql_query($sql, $db) or die(mysql_error());
+$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
 exitJson(0,"资料已保存");
 

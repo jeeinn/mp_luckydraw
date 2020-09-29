@@ -23,8 +23,8 @@ if(!$operatorid){
 
 $db=getDb();
 $sql="select awardnoticed from ".getTablePrefix()."_joins where luckydrawid='$luckydrawid' and ownerid='$openid' LIMIT 1";
-$res=mysql_query($sql,$db) or die(mysql_error());
-$row=mysql_fetch_assoc($res);
+$res=mysqli_query($db,$sql) or die(mysqli_error($db));
+$row=mysqli_fetch_assoc($res);
 
 if($row['awardnoticed']==1){
 	exitJson(4,'已发送通知');
@@ -34,7 +34,7 @@ if($row['awardnoticed']==1){
 sendGetAwardNotice($luckydrawInfo['awardname'],$luckydrawid,$openid);
 
 $sql="update ".getTablePrefix()."_joins set awardnoticed=1 where luckydrawid='$luckydrawid' and ownerid='$openid' LIMIT 1";
-$res=mysql_query($sql,$db) or die(mysql_error());
+$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
 exitJson(0,'发送成功');
 

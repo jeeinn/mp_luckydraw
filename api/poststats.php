@@ -21,7 +21,7 @@ $luckydrawid=$jsondata->luckydrawid;
 if($scene=="clicksponser" && $luckydrawid!=''){
     //sponserclickcount
     $sql="update ".getTablePrefix()."_luckydraws set sponserclickcount=sponserclickcount+1 where id='$luckydrawid' LIMIT 1";
-    mysql_query($sql,$db) or die(mysql_error());
+    mysqli_query($db,$sql) or die(mysqli_error($db));
 }
 
 

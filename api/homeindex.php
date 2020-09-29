@@ -8,35 +8,36 @@ $now=time();
 //精品推荐列表
 $db = getDb();
 $sql = "select * from ".getTablePrefix()."_luckydraws where isrecommend = 1 and opendate>='".($now-86400)."' and isdelete=0 order by opendate desc";
-$res=mysql_query($sql,$db) or die(mysql_error());
+$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
 $recommendlist = array();
-while ($row = mysql_fetch_assoc($res)) {
+while ($row = mysqli_fetch_assoc($res)) {
     $recommendlist[]=parseLuckyDraw($row);
 }
 
 //即将开奖
 $sql = "select * from ".getTablePrefix()."_luckydraws where isrecommend = 0 and homeindex=1 and opendate>='".($now-86400)."' and isdelete=0 order by createdate desc LIMIT 6";
-$res=mysql_query($sql,$db) or die(mysql_error());
+$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
 $soonlist = array();
-while ($row = mysql_fetch_assoc($res)) {
+while ($row = mysqli_fetch_assoc($res)) {
     $soonlist[]=parseLuckyDraw($row);
 }
 
 //方块菜单
 $squaremenus=array();
 
-$squaremenus[]=array("name"=>"","url"=>"xcxid://wxd35321d304ffabfc","backgroundImage"=>"http://jnsii.com/zj/images/wanwubanner.jpg");
+//$squaremenus[]=array("name"=>"","url"=>"xcxid://wxd35321d304ffabfc","backgroundImage"=>"http://jnsii.com/zj/images/wanwubanner.jpg");
+$squaremenus[]=array("name"=>"广告展位","url"=>"#","backgroundImage"=>"http://jnsii.com/zj/images/wanwubanner.jpg");
 $squaremenus[]=array("name"=>"领取RP币","url"=>"/pages/my/wallet","background"=>"#e6c033");
-$squaremenus[]=array("name"=>"中奖历史","url"=>"/pages/webview/index?url=https://jnsii.com/zj/h5/rank/","background"=>"#0099ee");
-$squaremenus[]=array("name"=>"常见问题","url"=>"/pages/webview/index?url=https://jnsii.com/zj/helpcenter/qna.html","background"=>"#44615e");
+//$squaremenus[]=array("name"=>"中奖历史","url"=>"/pages/webview/index?url=https://jnsii.com/zj/h5/rank/","background"=>"#0099ee");
+//$squaremenus[]=array("name"=>"常见问题","url"=>"/pages/webview/index?url=https://jnsii.com/zj/helpcenter/qna.html","background"=>"#44615e");
 $squaremenus[]=array("name"=>"附近抽奖","url"=>"/pages/luckydraw/map","background"=>"#FF5500");
 $squaremenus[]=array("name"=>"全部抽奖","url"=>"/pages/luckydraw/list","background"=>"#33cc33");
 // $squaremenus[]=array("name"=>"小程序跳转","url"=>"xcxid://wxa1d88bc6efa45d7b","backgroundImage"=>"http://jnsii.com/zj/images/defaultawardimage.jpg");
 
 //超级广告位
-$superbanner;//=array("image"=>"http://jnsii.com/zj/images/longxiabanner.jpg","url"=>"/pages/luckydraw/detail?id=160");
+//$superbanner=array("image"=>"http://jnsii.com/zj/images/longxiabanner.jpg","url"=>"/pages/luckydraw/detail?id=160");
 
 $shareapptext=["你用用看这个小程序，一分钱不花，试试运气呗！",
 				"你今天红光满面，八成有好事找上门！",

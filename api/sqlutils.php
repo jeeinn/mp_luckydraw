@@ -15,9 +15,9 @@ function isDitributionMode($buildVersion){
 function userIsBaned($openid){
 	$db = getDb();
 	$sql="select baned from ".getTablePrefix()."_members where openid='$openid' LIMIT 1";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$row=mysql_fetch_assoc($res);
+	$row=mysqli_fetch_assoc($res);
 	return intval($row['baned']);
 }
 
@@ -42,11 +42,11 @@ function addCoinHistory($type,$value,$msg,$touid=''){
 	$db = getDb();
 	$now=time();
 	$sql = "insert into ".getTablePrefix()."_coinhistory (`type`,`value`,`msg`,createdate,ownerid) values('$type','$value','$msg','$now','$uid')";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
 	$balance=$userinfo['coin']+$value;
-	$sql2 = "update ".getTablePrefix()."_members set coin='$balance' where openid='$uid' LIMIT 1";
-	$res=mysql_query($sql2,$db) or die(mysql_error());
+    $sql = "update ".getTablePrefix()."_members set coin='$balance' where openid='$uid' LIMIT 1";
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
 	return true;
 }
@@ -55,9 +55,9 @@ function addCoinHistory($type,$value,$msg,$touid=''){
 function getTotalAwards(){
 	$db = getDb();
 	$sql = "select sum(`awardnum`) from ".getTablePrefix()."_luckydraws";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$row=mysql_fetch_row($res);
+	$row=mysqli_fetch_row($res);
 	return $row[0]*131;
 }
 
@@ -65,9 +65,9 @@ function getTotalAwards(){
 function getLuckyDrawById($id){
 	$db = getDb();
 	$sql = "select * from ".getTablePrefix()."_luckydraws where id = '$id' LIMIT 1";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$row=mysql_fetch_assoc($res);
+	$row=mysqli_fetch_assoc($res);
 	return parseLuckyDraw($row);
 }
 
@@ -75,9 +75,9 @@ function getLuckyDrawById($id){
 function getUserSendCount($openid){
 	$db = getDb();
 	$sql = "select count(`id`) from ".getTablePrefix()."_luckydraws where ownerid = '$openid'";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$row=mysql_fetch_row($res);
+	$row=mysqli_fetch_row($res);
 	return $row[0];
 }
 
@@ -85,9 +85,9 @@ function getUserSendCount($openid){
 function getUserLuckyCount($openid){
 	$db = getDb();
 	$sql = "select count(DISTINCT `luckydrawid`) from ".getTablePrefix()."_joins where ownerid = '$openid' and getaward=1";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$row=mysql_fetch_row($res);
+	$row=mysqli_fetch_row($res);
 	return $row[0];
 }
 
@@ -95,9 +95,9 @@ function getUserLuckyCount($openid){
 function getUserJoinCount($openid){
 	$db = getDb();
 	$sql = "select count(distinct `luckydrawid`) from ".getTablePrefix()."_joins where ownerid = '$openid'";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$row=mysql_fetch_row($res);
+	$row=mysqli_fetch_row($res);
 	return $row[0];
 }
 
@@ -105,9 +105,9 @@ function getUserJoinCount($openid){
 function getUserOpenIdById($id){
 	$db = getDb();
 	$sql = "select `openid`,`nickname` from ".getTablePrefix()."_members where id = '$id' LIMIT 1";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$row = mysql_fetch_assoc($res);
+	$row = mysqli_fetch_assoc($res);
 	
 	return $row;
 }
@@ -116,9 +116,9 @@ function getUserOpenIdById($id){
 function getUserSimpleInfo($openid){
 	$db = getDb();
 	$sql = "select `id`,`nickname`,`headimg`,`gender`,`type`,`joindate`,`lastlogin`,`coin`,`optiondetail`,`baned` from ".getTablePrefix()."_members where openid = '$openid' LIMIT 1";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$row = mysql_fetch_assoc($res);
+	$row = mysqli_fetch_assoc($res);
 
 	$row['lastlogin']= date('Y-m-d H:i:s', $row['lastlogin']);
 	$row['joindate']= date('Y-m-d H:i:s', $row['joindate']);
@@ -130,9 +130,9 @@ function getUserSimpleInfo($openid){
 function getUserInfo($openid){
 	$db = getDb();
 	$sql = "select `id`,`openid`,`nickname`,`headimg`,`gender`,`type`,`joindate`,`lastlogin`,`coin`,`optiondetail` from ".getTablePrefix()."_members where openid = '$openid' LIMIT 1";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$row = mysql_fetch_assoc($res);
+	$row = mysqli_fetch_assoc($res);
 
 	$row['lastlogin']= date('Y-m-d H:i:s', $row['lastlogin']);
 	$row['joindate']= date('Y-m-d H:i:s', $row['joindate']);
@@ -177,9 +177,9 @@ function parseLuckyDraw($row){
 function getAwardsTotalLuckyManNum($id){
 	$db = getDb();
 	$sql = "select count(`id`) from ".getTablePrefix()."_joins where luckydrawid='$id' and getaward=1";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$row=mysql_fetch_row($res);
+	$row=mysqli_fetch_row($res);
 	return $row[0];
 }
 
@@ -187,9 +187,9 @@ function getAwardsTotalLuckyManNum($id){
 function getAwardsAddresReadyNum($id){
 	$db = getDb();
 	$sql = "select count(id) from ".getTablePrefix()."_joins where luckydrawid='$id' and getaward=1 and expressaddress!=''";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$row=mysql_fetch_row($res);
+	$row=mysqli_fetch_row($res);
 	return $row[0];
 }
 
@@ -197,9 +197,9 @@ function getAwardsAddresReadyNum($id){
 function getIsJoined($id,$openid){
 	$db = getDb();
 	$sql = "select `id` from ".getTablePrefix()."_joins where luckydrawid='$id' and ownerid = '$openid' LIMIT 1";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	if(mysql_num_rows($res)>0){
+	if(mysqli_num_rows($res)>0){
 		return true;
 	}
 	return false;
@@ -209,9 +209,9 @@ function getIsJoined($id,$openid){
 function getIsLuckyMan($id,$openid){
 	$db = getDb();
 	$sql = "select `id` from ".getTablePrefix()."_joins where luckydrawid='$id' and ownerid = '$openid' and getaward=1 LIMIT 1";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	if(mysql_num_rows($res)>0){
+	if(mysqli_num_rows($res)>0){
 		return true;
 	}
 	return false;
@@ -221,9 +221,9 @@ function getIsLuckyMan($id,$openid){
 function getTotalNamesByJoiner($id,$openid){
 	$db = getDb();
 	$sql = "select count(id) from ".getTablePrefix()."_joins where luckydrawid='$id' and ownerid = '$openid'";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$row=mysql_fetch_row($res);
+	$row=mysqli_fetch_row($res);
 	return $row[0];
 }
 
@@ -231,9 +231,9 @@ function getTotalNamesByJoiner($id,$openid){
 function getTotalJoinNumber($id){
 	$db = getDb();
 	$sql = "select count(`id`) from ".getTablePrefix()."_joins where luckydrawid='$id'";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$row=mysql_fetch_row($res);
+	$row=mysqli_fetch_row($res);
 	return $row[0];
 }
 
@@ -241,10 +241,10 @@ function getTotalJoinNumber($id){
 function getRecentJoins($id){
 	$db = getDb();
 	$sql = "select `ownerid` from ".getTablePrefix()."_joins where luckydrawid = '$id' order by createdate desc LIMIT 7";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
 	$list = array();
-	while ($row = mysql_fetch_assoc($res)) {
+	while ($row = mysqli_fetch_assoc($res)) {
 		$userInfo=getUserSimpleInfo($row['ownerid']);
 		$list[]=$userInfo;
 	}
@@ -260,13 +260,13 @@ function openAward($id){
 	
 	$db = getDb();
 	$sql = "select `id`,`luckydrawid`,`ownerid`,`ownernickname` from ".getTablePrefix()."_joins where luckydrawid = '$id'";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
-	$joinCount=mysql_num_rows($res);
+	$joinCount=mysqli_num_rows($res);
 	if($joinCount<=0)return false;
 
 	$joins=[];
-    while ($row = mysql_fetch_assoc($res)) {
+    while ($row = mysqli_fetch_assoc($res)) {
 		if(!array_key_exists($row['ownerid'],$noticedMan)){
 			$noticedMan[$row['ownerid']]=$row['ownerid'];
 			sendOpenAwardNotice($luckydrawInfo['awardname'],$luckydrawInfo['id'],$row['ownerid']);
@@ -291,9 +291,10 @@ function openAward($id){
 	return true;
 }
 
+// 天选中奖人
 function getOneAward($joins,$allLuckyMan){
 	// trace($joins);
-	$list_leng=count($joins);
+    // $list_leng=count($joins);
 	$luckyman=$joins[array_rand($joins,1)];
 	// trace($luckyman['ownerid']);
 	// trace($allLuckyMan[$luckyman['ownerid']]);
@@ -308,30 +309,31 @@ function updateJoinGetAward($id){
     $db = getDb();
     $now=time();
 	$sql = "update ".getTablePrefix()."_joins set getaward=1,awarddate='$now' where id = '$id' LIMIT 1";
-    $res=mysql_query($sql,$db) or die(mysql_error());
+    $res=mysqli_query($db,$sql) or die(mysqli_error($db));
 }
+
 function updateLuckyDrawIsOpened($id){
     $db = getDb();
 	$sql = "update ".getTablePrefix()."_luckydraws set isopened=1 where id = '$id' LIMIT 1";
-    $res=mysql_query($sql,$db) or die(mysql_error());
+    $res=mysqli_query($db,$sql) or die(mysqli_error($db));
 }
 
 function getFormId($uid){
 	$db = getDb();
 	$time=strtotime('-7 day');
 	$sql = "select * from ".getTablePrefix()."_formids where ownerid = '$uid' and used=0 and createdate>$time order by createdate asc LIMIT 1";
-	$res=mysql_query($sql,$db) or die(mysql_error());
-	if(mysql_num_rows($res)<=0){
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
+	if(mysqli_num_rows($res)<=0){
 		return false;
 	}
-	$row = mysql_fetch_assoc($res);
+	$row = mysqli_fetch_assoc($res);
 	return $row['formid'];
 }
 
 function deleteFormId($formid){
 	$db = getDb();
 	$sql="delete from ".getTablePrefix()."_formids where formid='$formid'";
-	$res=mysql_query($sql,$db) or die(mysql_error());
+	$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 }
 
 function trace($v){

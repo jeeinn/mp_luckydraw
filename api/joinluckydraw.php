@@ -22,8 +22,8 @@ if(userIsBaned($openid)){
 $db = getDb();
 
 $sql = "select * from ".getTablePrefix()."_luckydraws where id = '$id' LIMIT 1";
-$res=mysql_query($sql,$db) or die(mysql_error());
-$row = mysql_fetch_assoc($res);
+$res=mysqli_query($db,$sql) or die(mysqli_error($db));
+$row = mysqli_fetch_assoc($res);
 $luckydrawInfo=parseLuckyDraw($row);
 
 
@@ -46,7 +46,7 @@ $nickname=$userInfo['nickname'];
 if(addCoinHistory(2,-1,"参与抽奖")){
 
     $sql = "insert into `".getTablePrefix()."_joins` (luckydrawid,ownerid,ownernickname,createdate) values('$id','$openid','$nickname','$now')";
-    $res=mysql_query($sql, $db) or die(mysql_error());
+    $res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
     $inviterid=$jsondata->inviterid;
     if($inviterid && $luckydrawInfo['advshare']==1){
@@ -57,7 +57,7 @@ if(addCoinHistory(2,-1,"参与抽奖")){
             $inviterNickname=$inviter['nickname'];
 
             $sql = "insert into `".getTablePrefix()."_joins` (luckydrawid,ownerid,ownernickname,createdate,msg) values('$id','$inviterOpenId','$inviterNickname','".($now+1)."','分享+1')";
-            $res=mysql_query($sql, $db) or die(mysql_error());
+            $res=mysqli_query($db,$sql) or die(mysqli_error($db));
         }
     }
 

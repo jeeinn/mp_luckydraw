@@ -50,10 +50,10 @@ if($type==1){//我发起的
     $sql = "select * from ".getTablePrefix()."_luckydraws where advgpscity = '$city' and opendate>='$now' and isopened=0 and isdelete=0 and advispublic=1 order by opendate desc";
 }
 
-$res=mysql_query($sql,$db) or die(mysql_error());
+$res=mysqli_query($db,$sql) or die(mysqli_error($db));
 
 $list = array();
-while ($row = mysql_fetch_assoc($res)) {
+while ($row = mysqli_fetch_assoc($res)) {
     if($type==2){
         $list[]=getLuckyDrawById($row['luckydrawid']);
     }else if($type==22){

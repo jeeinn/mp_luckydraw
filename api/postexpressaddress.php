@@ -21,8 +21,8 @@ $db=getDb();
 
 
 $sql="select * from `".getTablePrefix()."_joins` where luckydrawid='$id' and ownerid='$openid' and getaward=1 LIMIT 1";
-$res=mysql_query($sql,$db) or die(mysql_error());
-$row=mysql_fetch_assoc($res);
+$res=mysqli_query($db,$sql) or die(mysqli_error($db));
+$row=mysqli_fetch_assoc($res);
 
 $now=time();
 if($row['awarddate']!=0 && $now>intval($row['awarddate'])+86400*7){
@@ -30,7 +30,7 @@ if($row['awarddate']!=0 && $now>intval($row['awarddate'])+86400*7){
 }
 
 $sql = "update `".getTablePrefix()."_joins` set expressaddress='$expressaddress' where luckydrawid='$id' and ownerid='$openid' and getaward=1 LIMIT 1";
-mysql_query($sql, $db) or die(mysql_error());
+mysqli_query($db,$sql) or die(mysqli_error($db));
 
 
 exitJson(0,"地址提交成功，请等待发货");

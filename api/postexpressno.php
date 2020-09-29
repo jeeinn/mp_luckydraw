@@ -14,11 +14,11 @@ $expressremark=$jsondata->expressremark;
 
 $db=getDb();
 $sql = "update `".getTablePrefix()."_joins` set expressno='$expressno',expressremark='$expressremark' where id='$id' and getaward=1 LIMIT 1";
-mysql_query($sql, $db) or die(mysql_error());
+mysqli_query($db,$sql) or die(mysqli_error($db));
 
 $sql="select ownerid from `".getTablePrefix()."_joins` where id='$id' LIMIT 1";
-$res=mysql_query($sql, $db) or die(mysql_error());
-$row = mysql_fetch_assoc($res);
+$res=mysqli_query($db,$sql) or die(mysqli_error($db));
+$row = mysqli_fetch_assoc($res);
 
 if($expressno!=""){
 	sendExpressNotice($expressno,$row['ownerid']);
