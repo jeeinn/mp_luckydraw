@@ -158,7 +158,8 @@ function parseLuckyDraw($row){
 
 	$awardimageTime=intval($row['awardimage'])/1000;
 	if($row['awardimage']!="")$row['awardimage']=date("Y",$awardimageTime)."/".date('m-d', $awardimageTime)."/".$row['awardimage'].".jpg";
-	else $row['awardimage']="2018/05-13/1526225507353.jpg";
+//	else $row['awardimage']="2018/05-13/1526225507353.jpg";
+	else $row['awardimage']=""; // 客户端默认主图
 
 	if($row['awardpics']!=""){
 		$awardPics=explode(",",$row['awardpics']);
